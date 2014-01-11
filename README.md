@@ -1,4 +1,12 @@
 WORK IN PROGRESS!! DO NOT USE YET!!!
+
+
+For use with MediterraneanCoin,
+you need to install this PHP module extension:
+
+https://github.com/mrtexaznl/php-hybridsch256
+
+
 ===========
 Description
 ===========
