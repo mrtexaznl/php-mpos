@@ -1,13 +1,15 @@
-WORK IN PROGRESS!! DO NOT USE YET!!!
+WORK IN PROGRESS!! DO NOT USE YET!!! 
+===========
 
 
-For use with MediterraneanCoin,
+
+For use with MediterraneanCoin (MED),
 you need to install this PHP module extension:
 
 https://github.com/mrtexaznl/php-hybridsch256
 
 
-===========
+
 Description
 ===========
 
