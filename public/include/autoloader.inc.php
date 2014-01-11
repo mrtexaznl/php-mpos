@@ -1,7 +1,8 @@
 <?php
-// SHA/Scrypt check
+// SHA/Scrypt/HybridScryptHash256 check
 
-if (empty($config['algorithm']) || $config['algorithm'] == 'scrypt') {
+// TBD: || $config['algorithm'] == 'hybridsch256' 
+if (empty($config['algorithm']) || $config['algorithm'] == 'scrypt' ) {
   $config['target_bits'] = 16;
 } else {
   $config['target_bits'] = 32;
@@ -58,8 +59,9 @@ require_once(CLASS_DIR . '/transaction.class.php');
 require_once(CLASS_DIR . '/roundstats.class.php');
 require_once(CLASS_DIR . '/news.class.php');
 require_once(CLASS_DIR . '/api.class.php');
-require_once(INCLUDE_DIR . '/lib/Michelf/Markdown.php');
+require_once(INCLUDE_DIR . '/lib/Michelf/Markdown.php');hybridsch256
 require_once(INCLUDE_DIR . '/lib/scrypt.php');
+require_once(INCLUDE_DIR . '/lib/hybridsch256.php');
 
 // Include our versions
 require_once(INCLUDE_DIR . '/version.inc.php');

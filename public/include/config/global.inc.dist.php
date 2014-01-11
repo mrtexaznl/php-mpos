@@ -33,10 +33,11 @@ define('SALT', 'PLEASEMAKEMESOMETHINGRANDOM');
   * Options:
   *   sha256d    :  SHA coins like Bitcoin
   *   scrypt     :  Scrypt based coins like Litecoin
+  *   hybridsch256: HybridScryptHash256 based coins like MediterraneanCoin
   * Default:
-  *   scrypt   :  Scrypt is default
+  *   hybridsch256   :  HybridScryptHash256 is default
   **/
-$config['algorithm'] = 'scrypt';
+$config['algorithm'] = 'hybridsch256';
 
 /**
  * Database configuration

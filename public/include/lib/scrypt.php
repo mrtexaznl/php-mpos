@@ -42,6 +42,8 @@ abstract class Scrypt
             throw new Exception\InvalidArgumentException("Parameter r is too large");
         }
 
+	
+
         if (extension_loaded('Scrypt')) {
             if ($length < 16) {
                 throw new Exception\InvalidArgumentException("Key length is too low, must be greater or equal to 16");
@@ -514,14 +516,25 @@ class Hmac
 	$value = Scrypt::calc($i, $i, 1024, 1, 1, 32);
 	echo "scrypt ".$i." hash:".  bin2hex($value)."<br/>";
 }*/
+
 /*
+echo "hello!\n";
+
 $i = pack("H*", "01000000f615f7ce3b4fc6b8f61e8f89aedb1d0852507650533a9e3b10b9bbcc30639f279fcaa86746e1ef52d3edb3c4ad8259920d509bd073605c9bf1d59983752a6b06b817bb4ea78e011d012d59d4");
 
+echo "\n";
+
 $value = Scrypt::calc($i, $i, 1024, 1, 1, 32);
-	echo "scrypt ".$i." hash:".   bin2hex($value)."<br/>";
+
+echo $value;
+
+echo "\n";
+
+	echo "scrypt ".$i." hash:".   bin2hex($value)."\n";
 	print_r( swapEndian(bin2hex($value)));
-	*/
 	
+echo "\n";	
+*/
 
 // Function used for pushpoold solution checks
 function word_reverse($str) {
