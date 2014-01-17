@@ -133,7 +133,7 @@ $config['gettingstarted']['stratumport'] = '3333';
  *   target    =  `/api.php?method=marketdata`
  **/
 $config['price']['url'] = 'https://btc-e.com';
-$config['price']['target'] = '/api/2/ltc_usd/ticker';
+$config['price']['target'] = '/api/2/med_usd/ticker';
 $config['price']['currency'] = 'USD';
 
 /**
@@ -170,7 +170,7 @@ $config['ap_threshold']['max'] = 250;
 $config['accounts']['invitations']['count'] = 5;
 
 // Currency system used in this pool, default: `LTC`
-$config['currency'] = 'LTC';
+$config['currency'] = 'MED';
 
 /**
  * Coin Target in seconds
@@ -212,7 +212,7 @@ $config['coindiffchangetarget'] = 2016;
  * Default:
  *   txfee   =  0.1
  **/
-$config['txfee'] = 0.1;
+$config['txfee'] = 0.01;
 
 // Payout a block bonus to block finders, default: 0 (disabled)
 // This bonus is paid by the pool operator, it is not deducted from the block payout!
