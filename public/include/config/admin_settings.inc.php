@@ -72,7 +72,7 @@ $aSettings['blockchain'][] = array(
 $aSettings['blockchain'][] = array(
   'display' => 'Blockexplorer URL', 'type' => 'text',
   'size' => 50,
-  'default' => 'http://explorer.litecoin.net/block/',
+  'default' => 'http://explorer.mediterraneancoin.org/block/',
   'name' => 'website_blockexplorer_url', 'value' => $setting->getValue('website_blockexplorer_url'),
   'tooltip' => 'URL to the blockexplorer website for your blockchain. Will append the blockhash to the URL. Leave empty to disabled this.'
 );
@@ -86,7 +86,7 @@ $aSettings['blockchain'][] = array(
 $aSettings['blockchain'][] = array(
   'display' => 'Transactionexplorer URL', 'type' => 'text',
   'size' => 50,
-  'default' => 'http://explorer.litecoin.net/tx/',
+  'default' => 'http://explorer.mediterraneancoin.org/tx/',
   'name' => 'website_transactionexplorer_url', 'value' => $setting->getValue('website_transactionexplorer_url'),
   'tooltip' => 'URL to the transactionexplorer website for your blockchain. Will append the transactionid to the URL. Leave empty to disabled this.'
 );
