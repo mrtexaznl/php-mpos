@@ -303,7 +303,7 @@ class Share Extends Base {
 
     // Stratum scrypt hash check
     //$scrypt_hash = swapEndian(bin2hex(Scrypt::calc($header_bin, $header_bin, 1024, 1, 1, 32)));
-    $hybridsch256_hash = swapEndian(bin2hex(Scrypt::calc($header_bin, $header_bin, 1024, 1, 1, 32)));
+    $hybridsch256_hash = swapEndian(bin2hex( $header_bin ));
 
     $stmt = $this->mysqli->prepare("SELECT SUBSTRING_INDEX( `username` , '.', 1 ) AS account, username as worker, id FROM $this->table WHERE solution = ? LIMIT 1");
     if ($this->checkStmt($stmt) && $stmt->bind_param('s', $hybridsch256_hash) && $stmt->execute() && $result = $stmt->get_result()) {
