@@ -1,7 +1,3 @@
-beta quality! can start testing...
-===========
-
-
 
 For use with MediterraneanCoin (MED),
 you need to install this PHP module extension:
