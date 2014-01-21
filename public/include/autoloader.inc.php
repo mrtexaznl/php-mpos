@@ -1,8 +1,10 @@
 <?php
-// SHA/Scrypt/HybridScryptHash256 check
 
-// TBD: || $config['algorithm'] == 'hybridsch256' 
-if (empty($config['algorithm']) || $config['algorithm'] == 'scrypt' ) {
+// Make sure we are called from index.php
+if (!defined('SECURITY')) die('Hacking attempt');
+
+// SHA/Scrypt check
+if (empty($config['algorithm']) || $config['algorithm'] == 'scrypt') {
   $config['target_bits'] = 16;
 } else {
   $config['target_bits'] = 32;
@@ -51,6 +53,7 @@ require_once(CLASS_DIR . '/bitcoinwrapper.class.php');
 require_once(CLASS_DIR . '/monitoring.class.php');
 require_once(CLASS_DIR . '/notification.class.php');
 require_once(CLASS_DIR . '/user.class.php');
+require_once(CLASS_DIR . '/csrftoken.class.php');
 require_once(CLASS_DIR . '/invitation.class.php');
 require_once(CLASS_DIR . '/share.class.php');
 require_once(CLASS_DIR . '/worker.class.php');

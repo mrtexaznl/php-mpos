@@ -27,10 +27,11 @@
   <script type="text/javascript" src="{$PATH}/js/justgage.1.0.1.min.js"></script>
 	<script type="text/javascript" src="{$PATH}/js/custom.js"></script>
 	<script type="text/javascript" src="{$PATH}/js/tinybox.js"></script>
+	<script type="text/javascript" src="{$PATH}/../global/js/number_format.js"></script>
   <!--[if IE]><script type="text/javascript" src="{$PATH}/js/excanvas.js"></script><![endif]-->
-
+  <script type="text/javascript" src="{$PATH}/js/pwcheck.js"></script>
     {if $GLOBAL.statistics.analytics.enabled}
-      {$GLOBAL.statistics.analytics.code}
+      {$GLOBAL.statistics.analytics.code nofilter}
     {/if}
 
 </head>
@@ -46,11 +47,13 @@
     {include file="global/navigation.tpl"}
 	</aside>
 	<section id="main" class="column">
+    {nocache}
     {if is_array($smarty.session.POPUP|default)}
       {section popup $smarty.session.POPUP}
-        <h4 class="{$smarty.session.POPUP[popup].TYPE|default:"info"}">{$smarty.session.POPUP[popup].CONTENT}</h4>
+        <h4 class="{$smarty.session.POPUP[popup].TYPE|default:"info"}">{$smarty.session.POPUP[popup].CONTENT nofilter}</h4>
       {/section}
     {/if}
+    {/nocache}
     {if $CONTENT != "empty" && $CONTENT != ""}
       {if file_exists($smarty.current_dir|cat:"/$PAGE/$ACTION/$CONTENT")}
         {include file="$PAGE/$ACTION/$CONTENT"}

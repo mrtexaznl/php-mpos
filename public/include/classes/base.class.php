@@ -31,6 +31,9 @@ class Base {
   public function setSalt($salt) {
     $this->salt = $salt;
   }
+  public function setSalty($salt) {
+    $this->salty = $salt;
+  }
   public function setSmarty($smarty) {
     $this->smarty = $smarty;
   }
@@ -69,6 +72,9 @@ class Base {
   }
   public function setTokenType($tokentype) {
     $this->tokentype = $tokentype;
+  }
+  public function setCSRFToken($token) {
+    $this->CSRFToken = $token;
   }
   public function setShare($share) {
     $this->share = $share;
@@ -113,6 +119,32 @@ class Base {
     } else {
       return $this->aErrorCodes[$errCode];
     }
+  }
+
+  /**
+   * Fetch count of all entries in table
+   * @param none
+   * @param data mixed Count or false
+   **/
+  public function getCount() {
+    $this->debug->append("STA " . __METHOD__, 4);
+    $stmt = $this->mysqli->prepare("SELECT COUNT(id) AS count FROM $this->table");
+    if ($this->checkStmt($stmt) && $stmt->execute() && $result = $stmt->get_result())
+      return $result->fetch_object()->count;
+    return $this->sqlError();
+  }
+
+  /**
+   * Fetch count of all entries in table filtered by a column/value
+   * @param none
+   * @param data mixed Count or false
+   **/
+  public function getCountFiltered($column='id', $value=NULL, $type='i', $operator = '=') {
+    $this->debug->append("STA " . __METHOD__, 4);
+    $stmt = $this->mysqli->prepare("SELECT COUNT(id) AS count FROM $this->table WHERE $column $operator ?");
+    if ($this->checkStmt($stmt) && $stmt->bind_param($type, $value) && $stmt->execute() && $result = $stmt->get_result())
+      return $result->fetch_object()->count;
+    return $this->sqlError();
   }
 
   /**
@@ -212,7 +244,7 @@ class Base {
     if ($this->checkStmt($stmt) && $stmt->bind_param($field['type'].'i', $field['value'], $id) && $stmt->execute())
       return true;
     $this->debug->append("Unable to update " . $field['name'] . " with " . $field['value'] . " for ID $id");
-    $this->sqlError();
+    return $this->sqlError();
   }
 
   /**

@@ -3,7 +3,6 @@
   <div class="templates-tree" id="templates-tree">
     {include file="admin/templates/tree.tpl" files=$TEMPLATES prefix=""}
   </div>
-  <p>* Bold templates are activated</p>
   <link rel='stylesheet' type='text/css' href='{$PATH}/js/dynatree/skin/ui.dynatree.css'>
   <script type="text/javascript" src="{$PATH}/js/jquery.cookie.js"></script>
   <script type="text/javascript" src="{$PATH}/js/jquery-ui.custom.min.js"></script>
@@ -39,11 +38,14 @@
     .templates-tree span.dynatree-has-activated a,
     .templates-tree span.dynatree-activated a { font-weight: bold; }
   </style>
+  <footer>
+  <ul><li>Bold templates are activated</li></ul>
+  </footer>
 </article>
 
 <article class="module width_3_quarter">
   <header><h3> Edit template '{$CURRENT_TEMPLATE}' </h3></header>
-  <form method="POST" action="{$smarty.server.PHP_SELF}">
+  <form method="POST" action="{$smarty.server.SCRIPT_NAME}">
     <input type="hidden" name="page" value="{$smarty.request.page}">
     <input type="hidden" name="action" value="{$smarty.request.action}">
     <input type="hidden" name="template" value="{$CURRENT_TEMPLATE}">
@@ -53,15 +55,15 @@
         <label>Active</label>
         <input type="hidden" name="active" value="0" />
         <input type="checkbox" name="active" value="1" id="active" {nocache}{if $DATABASE_TEMPLATE.active}checked{/if}{/nocache} />
-        <label for="active"></label>
+        <label for="active" style="margin: -1px 0px 0px -186px;"></label>
       </fieldset>
       <fieldset>
         <label>Content</label>
-        <textarea name="content" rows="15" type="text" required>{nocache}{$DATABASE_TEMPLATE.content|escape}{/nocache}</textarea>
+        <textarea name="content" rows="15" type="text" required>{nocache}{$DATABASE_TEMPLATE.content nofilter}{/nocache}</textarea>
       </fieldset>
       <fieldset>
         <label>Original Template Content</label>
-        <textarea readonly rows="15" type="text" required>{nocache}{$ORIGINAL_TEMPLATE|escape}{/nocache}</textarea>
+        <textarea readonly rows="15" type="text" required>{nocache}{$ORIGINAL_TEMPLATE nofilter}{/nocache}</textarea>
       </fieldset>
     </div>
      <footer>

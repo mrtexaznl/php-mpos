@@ -7,7 +7,7 @@ if (!defined('SECURITY')) die('Hacking attempt');
  * This is used in the version check to ensure you run the latest version of the configuration file.
  * Once you upgraded your config, change the version here too.
  **/
-$config['version'] = '0.0.1';
+$config['version'] = '0.0.5';
 
 // Our include directory for additional features
 define('INCLUDE_DIR', BASEPATH . 'include');
@@ -22,10 +22,12 @@ define('PAGES_DIR', INCLUDE_DIR . '/pages');
 define('THEME_DIR', BASEPATH . 'templates');
 
 // Set debugging level for our debug class
+// Values valid from 0 (disabled) to 5 (most verbose)
 define('DEBUG', 0);
 
 // SALT used to hash passwords
 define('SALT', 'PLEASEMAKEMESOMETHINGRANDOM');
+define('SALTY', 'THISSHOULDALSOBERRAANNDDOOM');
 
 /**
   * Underlying coin algorithm that you are mining on. Set this to whatever your coin needs:
@@ -78,6 +80,76 @@ $config['wallet']['username'] = 'testnet';
 $config['wallet']['password'] = 'testnet';
 
 /**
+ * Payout of liquid assets
+ *
+ * Explanation:
+ *   Running pools, especially those with active fees, will build up a good
+ *   amount of liquid assets that can be used by pool operators. If you wish
+ *   to automatically send your assets to a offline wallet, set your account
+ *   address, reserves and thresholds here.
+ *
+ * Options:
+ *   address    :  The address of the wallet to the address you'd like to receive the coins in
+ *   reserve    :  The amount you'd like to remain in the wallet. Recommended is at least 1 block value
+ *   threshold  :  The amount of coins you'd like to send per batch minimum. Once exceeded, this is sent
+ *                 to the offline wallet address specified.
+ * Default:
+ *   addresss   :  empty
+ *   reserve    :  50
+ *   threshold  :  25
+ **/
+$config['coldwallet']['address'] = '';
+$config['coldwallet']['reserve'] = 50;
+$config['coldwallet']['threshold'] = 5;
+
+/**
+ * E-mail confirmations for user actions
+ *
+ * Explanation:
+ *   To increase security for users, account detail changes can require
+ *   an e-mail confirmation prior to performing certain actions.
+ *
+ * Options:
+ *   enabled   :  Whether or not to require e-mail confirmations
+ *   details   :  Require confirmation to change account details
+ *   withdraw  :  Require confirmation to manually withdraw/payout
+ *   changepw  :  Require confirmation to change password
+ *
+ * Default:
+ *   enabled   =  true
+ *   details   =  true
+ *   withdraw  =  true
+ *   changepw  =  true
+ */
+$config['twofactor']['enabled'] = true;
+$config['twofactor']['options']['details'] = true;
+$config['twofactor']['options']['withdraw'] = true;
+$config['twofactor']['options']['changepw'] = true;
+
+/**
+ * CSRF protection config
+ *
+ * Explanation:
+ *   To help protect against CSRF, we can generate a hash that changes every minute
+ *   and is unique for each user/IP and page or use, and check against that when a
+ *   form is submitted.
+ *
+ * Options:
+ *   enabled          =   Whether or not we will generate/check for valid CSRF tokens
+ *   leadtime         =   Length of time in seconds to give as leeway between minute switches
+ *                         * Don't change this unless you know why you're changing it
+ *   disabled_forms   =   Which forms you want to disable csrf protection on, if enabled  
+ *                         * Valid options  :  login, contact, accountedit, workers, notifications, invite, register, passreset, unlockaccount
+ * Default:
+ *   enabled          =   true
+ *   leadtime         =   3
+ *   disabled_forms   =   array();
+ */
+$config['csrf']['enabled'] = true;
+$config['csrf']['leadtime'] = 3;
+$config['csrf']['disabled_forms'] = array();
+
+/**
  * Lock account after maximum failed logins
  *
  * Explanation:
@@ -106,6 +178,7 @@ $config['maxfailed']['pin'] = 3;
  **/
 $config['gettingstarted']['coinname'] = 'MediterraneanCoin';
 $config['gettingstarted']['coinurl'] = 'http://www.mediterraneancoin.org';
+$config['gettingstarted']['stratumurl'] = '';
 $config['gettingstarted']['stratumport'] = '3333';
 
 /**
@@ -203,16 +276,21 @@ $config['coindiffchangetarget'] = 2016;
  * Default transaction fee to apply to user transactions
  *
  * Explanation
- *   The coin daemon applies transcation fees to young coins.
+ *   The coin daemon applies transaction fees to young coins.
  *   Since we are unable to find out what the exact fee was we set
  *   a default value here which is applied to both manual and auto payouts.
  *   If this is not set, no fee is applied in the transactions history but
  *   the user might still see them when the coins arrive.
+ *   You can set two different transaction fees for manual and auto payouts.
  *
  * Default:
- *   txfee   =  0.1
+ *   txfee_auto   =  0.1
+ *   txfee_manual   =  0.1
+ *
  **/
-$config['txfee'] = 0.01;
+
+$config['txfee_auto'] = 0.01;
+$config['txfee_manual'] = 0.01;
 
 // Payout a block bonus to block finders, default: 0 (disabled)
 // This bonus is paid by the pool operator, it is not deducted from the block payout!
@@ -220,7 +298,7 @@ $config['block_bonus'] = 0;
 
 
 /**
- * Payout sytem in use
+ * Payout system in use
  *
  * This will modify some templates and activate the
  * appropriate crons. Only ONE payout system at a time
@@ -248,7 +326,7 @@ $config['payout_system'] = 'prop';
  *   continues to delete shares until all shares have been purged.
  *
  *   You can adjust some purging settings here in order to improve your overall
- *   site performance during round ends. Keep in mind that drecreasing shares/time
+ *   site performance during round ends. Keep in mind that decreasing shares/time
  *   will make the cron run longer but at least keeps your site active. Vice versa
  *   higher numbers allow for a faster deletion but might affect the live site.
  *
@@ -387,8 +465,8 @@ $config['difficulty'] = 20;
  *   reward       = 50
  *
  **/
-$config['reward_type'] = 'fixed';
-$config['reward'] = 50;
+$config['reward_type'] = 'block';
+$config['reward'] = 10;
 
 // Confirmations per block required to credit transactions, default: 120
 // Do NOT touch this unless you know what you are doing! Please check your coin for the
@@ -454,7 +532,7 @@ $config['memcache']['splay'] = 15;
 
 
 /**
- * Cookie configiration
+ * Cookie configuration
  *
  * You can configure the cookie behaviour to secure your cookies more than the PHP defaults
  *
@@ -481,7 +559,7 @@ $config['memcache']['splay'] = 15;
  *
  * secure:
  *   marks the cookie as accessible only through the HTTPS protocol. If you have a SSL
- *   certificate installed on your domain name then this will stop a user accidently
+ *   certificate installed on your domain name then this will stop a user accidentally
  *   accessing the site over a HTTP connection, without SSL, exposing their session cookie.
  *
  * Default:
@@ -511,7 +589,7 @@ $config['cookie']['secure'] = false;
  *   You can test this out and enable (1) this setting but it's not guaranteed to
  *   work with MPOS.
  *
- *   Ensure that the folder `templates/cache` is writable by the webserver!
+ *   Ensure that the folder `templates/cache` is writeable by the web server!
  *
  *   cache           =  Enable/Disable the cache
  *   cache_lifetime  =  Time to keep files in seconds before updating them
@@ -534,7 +612,7 @@ $config['smarty']['cache_lifetime'] = 30;
  * System load setting
  *
  * This will disable loading of some API calls in case the system
- * loads exceeds the defined max setting. Useful to temporaily suspend
+ * loads exceeds the defined max setting. Useful to temporarily suspend
  * live statistics on a server that is too busy to deal with requests.
  *
  * Options

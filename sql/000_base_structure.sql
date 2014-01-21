@@ -15,11 +15,13 @@ CREATE TABLE IF NOT EXISTS `accounts` (
   `username` varchar(40) NOT NULL,
   `pass` varchar(255) NOT NULL,
   `email` varchar(255) DEFAULT NULL COMMENT 'Assocaited email: used for validating users, and re-setting passwords',
+  `notify_email` VARCHAR( 255 ) NULL DEFAULT NULL,
   `loggedIp` varchar(255) DEFAULT NULL,
   `is_locked` tinyint(1) NOT NULL DEFAULT '0',
   `failed_logins` int(5) unsigned DEFAULT '0',
   `failed_pins` int(5) unsigned DEFAULT '0',
-  `sessionTimeoutStamp` int(255) DEFAULT NULL,
+  `signup_timestamp` int(10) DEFAULT '0',
+  `last_login` int(10) DEFAULT NULL,
   `pin` varchar(255) NOT NULL COMMENT 'four digit pin to allow account changes',
   `api_key` varchar(255) DEFAULT NULL,
   `token` varchar(65) DEFAULT NULL,
@@ -96,10 +98,10 @@ CREATE TABLE IF NOT EXISTS `notification_settings` (
   `type` varchar(15) NOT NULL,
   `account_id` int(11) NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `account_id` (`account_id`),
+  UNIQUE KEY `account_id_type` (`account_id`,`type`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-INSERT INTO `settings` (`name`, `value`) VALUES ('DB_VERSION', '0.0.1');
 
 CREATE TABLE IF NOT EXISTS `payouts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -129,6 +131,8 @@ CREATE TABLE IF NOT EXISTS `settings` (
   PRIMARY KEY (`name`),
   UNIQUE KEY `setting` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `settings` (`name`, `value`) VALUES ('DB_VERSION', '0.0.4');
 
 CREATE TABLE IF NOT EXISTS `shares` (
   `id` bigint(30) NOT NULL AUTO_INCREMENT,
@@ -200,7 +204,10 @@ INSERT INTO `token_types` (`id`, `name`, `expiration`) VALUES
 (1, 'password_reset', 3600),
 (2, 'confirm_email', 0),
 (3, 'invitation', 0),
-(4, 'account_unlock', 0);
+(4, 'account_unlock', 0),
+(5, 'account_edit', 3600),
+(6, 'change_pw', 3600),
+(7, 'withdraw_funds', 3600);
 
 CREATE TABLE IF NOT EXISTS `transactions` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
@@ -230,3 +237,4 @@ CREATE TABLE IF NOT EXISTS `templates` (
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+

@@ -145,7 +145,7 @@ class Block extends Base {
    * @return bool
    **/
   public function setConfirmations($block_id, $confirmations) {
-    $stmt = $this->mysqli->prepare("UPDATE $this->table SET confirmations = ? WHERE id = ?");
+    $stmt = $this->mysqli->prepare("UPDATE $this->table SET confirmations = ? WHERE id = ? LIMIT 1");
     if ($this->checkStmt($stmt) && $stmt->bind_param("ii", $confirmations, $block_id) && $stmt->execute())
       return true;
     return $this->sqlError();
@@ -201,7 +201,7 @@ class Block extends Base {
   /**
    * Set finding worker of a block
    * @param block_id int Block ID
-   * @param worker_id int Worker ID of finder
+   * @param worker string Worker Name of finder
    * @return bool
    **/
   public function setFindingWorker($block_id, $worker=NULL) {

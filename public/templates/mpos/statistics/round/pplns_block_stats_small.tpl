@@ -4,10 +4,10 @@
     <tbody>
       <tr>
         <td align="left">
-          <a href="{$smarty.server.PHP_SELF}?page={$smarty.request.page|escape}&action={$smarty.request.action|escape}&height={$BLOCKDETAILS.height}&prev=1"><i class="icon-left-open"></i></a>
+          <a href="{$smarty.server.SCRIPT_NAME}?page={$smarty.request.page|escape}&action={$smarty.request.action|escape}&height={$BLOCKDETAILS.height}&prev=1"><i class="icon-left-open"></i></a>
         </td>
         <td align="right" colspan="4">
-          <a href="{$smarty.server.PHP_SELF}?page={$smarty.request.page|escape}&action={$smarty.request.action|escape}&height={$BLOCKDETAILS.height}&next=1"><i class="icon-right-open"></i></a>
+          <a href="{$smarty.server.SCRIPT_NAME}?page={$smarty.request.page|escape}&action={$smarty.request.action|escape}&height={$BLOCKDETAILS.height}&next=1"><i class="icon-right-open"></i></a>
         </td>
       </tr>
     </tbody>
@@ -63,7 +63,7 @@
         <td>Shares</td>
         <td>{$BLOCKDETAILS.shares|number_format:"0"|default:"0"}</td>
         <td>Finder</td>
-        <td>{$BLOCKDETAILS.finder|default:"0"}</td>
+        <td>{$BLOCKDETAILS.finder|default:"unknown"}</td>
         <td>Seconds This Round</td>
         <td>{$BLOCKDETAILS.round_time|number_format:"0"|default:"0"}</td>
         <td>Round Variance</td>
@@ -73,7 +73,7 @@
   </table>
   <footer>
     <div class="submit_link">
-      <form action="{$smarty.server.PHP_SELF}" method="POST" id='search'>
+      <form action="{$smarty.server.SCRIPT_NAME}" method="POST" id='search'>
         <input type="hidden" name="page" value="{$smarty.request.page|escape}">
         <input type="hidden" name="action" value="{$smarty.request.action|escape}">
         <input type="text" class="pin" name="search" value="{$smarty.request.height|default:"%"|escape}">

@@ -31,7 +31,7 @@ class Worker extends Base {
       }
       // Prefix the WebUser to Worker name
       $value['username'] = "$username." . $value['username'];
-      $stmt = $this->mysqli->prepare("UPDATE $this->table SET password = ?, username = ?, monitor = ? WHERE account_id = ? AND id = ?");
+      $stmt = $this->mysqli->prepare("UPDATE $this->table SET password = ?, username = ?, monitor = ? WHERE account_id = ? AND id = ? LIMIT 1");
       if ( ! ( $this->checkStmt($stmt) && $stmt->bind_param('ssiii', $value['password'], $value['username'], $value['monitor'], $account_id, $key) && $stmt->execute()) )
         $iFailed++;
       }
@@ -198,19 +198,19 @@ class Worker extends Base {
   }
 
   /**
-   * Get all currently active workers in the past 10 minutes
+   * Get all currently active workers in the past 2 minutes
    * @param none
    * @return data mixed int count if any workers are active, false otherwise
    **/
-  public function getCountAllActiveWorkers() {
+  public function getCountAllActiveWorkers($interval=120) {
     $this->debug->append("STA " . __METHOD__, 4);
     if ($data = $this->memcache->get(__FUNCTION__)) return $data;
     $stmt = $this->mysqli->prepare("
       SELECT COUNT(DISTINCT(username)) AS total
       FROM "  . $this->share->getTableName() . "
       WHERE our_result = 'Y'
-      AND time > DATE_SUB(now(), INTERVAL 10 MINUTE)");
-    if ($this->checkStmt($stmt) && $stmt->execute() && $result = $stmt->get_result())
+      AND time > DATE_SUB(now(), INTERVAL ? SECOND)");
+    if ($this->checkStmt($stmt) && $stmt->bind_param('i', $interval) && $stmt->execute() && $result = $stmt->get_result())
       return $this->memcache->setCache(__FUNCTION__, $result->fetch_object()->total);
     return $this->sqlError();
   }
@@ -259,7 +259,7 @@ class Worker extends Base {
    **/
   public function deleteWorker($account_id, $id) {
     $this->debug->append("STA " . __METHOD__, 4);
-    $stmt = $this->mysqli->prepare("DELETE FROM $this->table WHERE account_id = ? AND id = ?");
+    $stmt = $this->mysqli->prepare("DELETE FROM $this->table WHERE account_id = ? AND id = ? LIMIT 1");
     if ($this->checkStmt($stmt) && $stmt->bind_param('ii', $account_id, $id) && $stmt->execute() && $stmt->affected_rows == 1)
         return true;
     return $this->sqlError('E0061');
