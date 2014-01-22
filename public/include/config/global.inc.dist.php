@@ -161,8 +161,8 @@ $config['ap_threshold']['max'] = 250;
  **/
 $config['accounts']['invitations']['count'] = 5;
 
-// Currency system used in this pool, default: `LTC`
-$config['currency'] = 'LTC';
+// Currency system used in this pool, default: `MED`
+$config['currency'] = 'MED';
 
 /**
  * Coin Target in seconds
@@ -176,7 +176,7 @@ $config['currency'] = 'LTC';
  *   Bitcoin: 10 minutes = 600 seconds
  *
  **/
-$config['cointarget'] = '150';
+$config['cointarget'] = '60';
 
 /**
  * Default transaction fee to apply to user transactions
@@ -337,8 +337,8 @@ $config['difficulty'] = 20;
  *   reward       = 50
  *
  **/
-$config['reward_type'] = 'fixed';
-$config['reward'] = 50;
+$config['reward_type'] = 'block';
+$config['reward'] = 10;
 
 // Confirmations per block required to credit transactions, default: 120
 $config['confirmations'] = 120;
